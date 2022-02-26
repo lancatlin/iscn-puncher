@@ -1,11 +1,7 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import { ISCNQueryClient, ISCNSigningClient } from "@likecoin/iscn-js";
-import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import stargate from "@cosmjs/stargate";
-const { assertIsBroadcastTxSuccess, SigningStargateClient, StargateClient } =
-  stargate;
+const { ISCNQueryClient, ISCNSigningClient } = require("@likecoin/iscn-js");
+const { DirectSecp256k1HdWallet } = require("@cosmjs/proto-signing");
+const { SigningStargateClient } = require("@cosmjs/stargate");
+require("dotenv").config();
 
 const MNEMONIC = process.env["MNEMONIC"];
 console.log(MNEMONIC);
