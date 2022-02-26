@@ -1,0 +1,8 @@
+{
+  "name": "iscn-puncher",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "github.com/lancatlin/iscn-puncher",
+  "author": "wancat <wancat@wancat.cc>",
+  "license": "GPL"
+}
