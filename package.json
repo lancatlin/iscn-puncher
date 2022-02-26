@@ -5,6 +5,7 @@
   "repository": "github.com/lancatlin/iscn-puncher",
   "author": "wancat <wancat@wancat.cc>",
   "license": "GPL",
+  "type": "module",
   "dependencies": {
     "@cosmjs/stargate": "^0.27.1",
     "@likecoin/iscn-js": "0.0.7",
@@ -14,6 +15,5 @@
   "devDependencies": {
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
-  },
-  "type": "module"
+  }
 }

@@ -3,7 +3,9 @@ dotenv.config();
 
 import { ISCNQueryClient, ISCNSigningClient } from "@likecoin/iscn-js";
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { SigningStargateClient, StargateClient } from "@cosmjs/stargate";
+import stargate from "@cosmjs/stargate";
+const { assertIsBroadcastTxSuccess, SigningStargateClient, StargateClient } =
+  stargate;
 
 const MNEMONIC = process.env["MNEMONIC"];
 console.log(MNEMONIC);
@@ -16,7 +18,7 @@ async function sign() {
   const signingClient = new ISCNSigningClient();
   await signingClient.connectWithSigner(
     "http://node.testnet.like.co/rpc/",
-    wallet
+    signer
   );
   const client = new ISCNQueryClient();
   await client.connect("http://node.testnet.like.co/rpc/");
