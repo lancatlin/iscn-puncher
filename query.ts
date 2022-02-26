@@ -3,8 +3,9 @@ import { ISCNQueryClient } from '@likecoin/iscn-js';
 const client = new ISCNQueryClient();
 
 async function main() {
-	const res = await client.queryRecordsById('iscn://likecoin-chain/dLbKMa8EVO9RF4UmoWKk2ocUq7IsxMcnQL1_Ps5Vg80/1');
-	console.log(res);
+	await client.connect('http://node.testnet.like.co/rpc/');
+	const res = await client.queryRecordsByOwner('cosmos170d84tujgds00qcckxmd3jv0p222c4909rn7yg');
+	console.dir(res, { depth: null});
 }
 
 main();
