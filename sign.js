@@ -1,8 +1,7 @@
-import { ISCNQueryClient, ISCNSigningClient } from "@likecoin/iscn-js";
-import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { SigningStargateClient } from "@cosmjs/stargate";
-import dotenv from "dotenv";
-dotenv.config();
+const { ISCNQueryClient, ISCNSigningClient } = require("@likecoin/iscn-js");
+const { DirectSecp256k1HdWallet } = require("@cosmjs/proto-signing");
+const { SigningStargateClient } = require("@cosmjs/stargate");
+require("dotenv").config();
 
 const MNEMONIC = process.env["MNEMONIC"];
 const NAME = process.env["NAME"];
@@ -50,4 +49,4 @@ async function sign(action) {
   // console.log(iscnID);
 }
 
-sign(PUNCH_OUT);
+module.exports = sign;
