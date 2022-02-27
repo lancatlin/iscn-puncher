@@ -1,9 +1,7 @@
 const { ISCNQueryClient, ISCNSigningClient } = require("@likecoin/iscn-js");
-const { DirectSecp256k1HdWallet } = require("@cosmjs/proto-signing");
 const { SigningStargateClient } = require("@cosmjs/stargate");
-require("dotenv").config();
+const { loadWallet } = require("./wallet");
 
-const MNEMONIC = process.env["MNEMONIC"];
 const NAME = process.env["NAME"];
 const PUNCH_IN = "Punch in";
 const PUNCH_OUT = "Punch out";
@@ -15,8 +13,7 @@ function formatDate(date) {
 }
 
 async function sign(action) {
-  const signer = await DirectSecp256k1HdWallet.fromMnemonic(MNEMONIC);
-  const [wallet] = await signer.getAccounts();
+  const { signer, wallet } = await loadWallet();
   console.log(wallet.address);
 
   const signingClient = new ISCNSigningClient();
@@ -48,4 +45,8 @@ async function sign(action) {
   console.log(iscnID);
 }
 
-module.exports = sign;
+module.exports = {
+  sign,
+  PUNCH_IN,
+  PUNCH_OUT,
+};

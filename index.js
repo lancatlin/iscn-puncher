@@ -1,7 +1,8 @@
+require("dotenv").config();
 const yargs = require("yargs");
-const sign = require("./sign");
+const { sign, PUNCH_IN, PUNCH_OUT } = require("./sign");
 
-const argv = yargs(process.argv.slice(2))
+yargs(process.argv.slice(2))
   .usage("Usage: $0 <command> [options]")
   .command(
     "punch [action]",
@@ -10,10 +11,10 @@ const argv = yargs(process.argv.slice(2))
     (argv) => {
       switch (argv.action) {
         case "in":
-          sign("Punch in");
+          sign(PUNCH_IN);
           break;
         case "out":
-          sign("Punch out");
+          sign(PUNCH_OUT);
           break;
         default:
           console.log("Command cannot be recognized");
