@@ -40,13 +40,12 @@ async function sign(action) {
     ],
     type: "Message",
     name: `${NAME} - ${action} - ${formatDate(new Date())}`,
-    keywords: action,
   };
-  console.log(payload);
-  // const res = await signingClient.createISCNRecord(wallet.address);
-  // console.log(res);
-  // const iscnID = await client.queryISCNIdsByTx(res.transactionHash);
-  // console.log(iscnID);
+  console.dir(payload, { depth: null });
+  const res = await signingClient.createISCNRecord(wallet.address, payload);
+  console.log(res);
+  const iscnID = await client.queryISCNIdsByTx(res.transactionHash);
+  console.log(iscnID);
 }
 
 module.exports = sign;

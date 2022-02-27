@@ -8,7 +8,6 @@ const argv = yargs(process.argv.slice(2))
     "punch in or punch out",
     () => {},
     (argv) => {
-      console.log("Punch", argv.action);
       switch (argv.action) {
         case "in":
           sign("Punch in");
@@ -22,5 +21,3 @@ const argv = yargs(process.argv.slice(2))
     }
   )
   .command("config", "config the wallet").argv;
-
-console.log(argv);
