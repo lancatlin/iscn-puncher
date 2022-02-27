@@ -1,15 +1,24 @@
-const { ISCNQueryClient, ISCNSigningClient } = require("@likecoin/iscn-js");
-const { DirectSecp256k1HdWallet } = require("@cosmjs/proto-signing");
-const { SigningStargateClient } = require("@cosmjs/stargate");
-require("dotenv").config();
+import { ISCNQueryClient, ISCNSigningClient } from "@likecoin/iscn-js";
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import { SigningStargateClient } from "@cosmjs/stargate";
+import dotenv from "dotenv";
+dotenv.config();
 
 const MNEMONIC = process.env["MNEMONIC"];
-console.log(MNEMONIC);
+const NAME = process.env["NAME"];
+const PUNCH_IN = "Punch in";
+const PUNCH_OUT = "Punch out";
 
-async function sign() {
+function formatDate(date) {
+  return `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+}
+
+async function sign(action) {
   const signer = await DirectSecp256k1HdWallet.fromMnemonic(MNEMONIC);
   const [wallet] = await signer.getAccounts();
-  console.log(wallet);
+  console.log(wallet.address);
 
   const signingClient = new ISCNSigningClient();
   await signingClient.connectWithSigner(
@@ -19,26 +28,26 @@ async function sign() {
   const client = new ISCNQueryClient();
   await client.connect("http://node.testnet.like.co/rpc/");
 
-  const res = await signingClient.createISCNRecord(wallet.address, {
-    contentFingerPrints: [
-      "hash://sha256/9564b85669d5e96ac969dd0161b8475bbced9e5999c6ec598da718a3045d6f2e",
-    ],
+  const payload = {
     stakeholders: [
       {
         entity: {
           "@id": wallet.address,
-          name: "Justin Lin",
+          name: NAME,
         },
         rewardProportion: 100,
         contributionType: "http://schema.org/author",
       },
     ],
     type: "Message",
-    name: "Test ISCN",
-  });
-  console.log(res);
-  const iscnID = await client.queryISCNIdsByTx(res.transactionHash);
-  console.log(iscnID);
+    name: `${NAME} - ${action} - ${formatDate(new Date())}`,
+    keywords: action,
+  };
+  console.log(payload);
+  // const res = await signingClient.createISCNRecord(wallet.address);
+  // console.log(res);
+  // const iscnID = await client.queryISCNIdsByTx(res.transactionHash);
+  // console.log(iscnID);
 }
 
-sign();
+sign(PUNCH_OUT);

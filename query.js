@@ -5,7 +5,7 @@ const client = new ISCNQueryClient();
 async function main() {
   await client.connect("http://node.testnet.like.co/rpc/");
   const res = await client.queryRecordsByOwner(
-    "cosmos170d84tujgds00qcckxmd3jv0p222c4909rn7yg"
+    "cosmos1ututsjcj6l9a04ue68zfm07kpuxrxn674c809w"
   );
   console.dir(res, { depth: null });
 }
