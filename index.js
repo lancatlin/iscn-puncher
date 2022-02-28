@@ -1,6 +1,7 @@
 require("dotenv").config();
 const yargs = require("yargs");
 const { sign, PUNCH_IN, PUNCH_OUT } = require("./sign");
+const { query } = require("./query");
 
 yargs(process.argv.slice(2))
   .usage("Usage: $0 <command> [options]")
@@ -21,4 +22,7 @@ yargs(process.argv.slice(2))
       }
     }
   )
+  .command("query", "Query", {}, () => {
+    query();
+  })
   .command("config", "config the wallet").argv;
