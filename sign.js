@@ -1,6 +1,6 @@
 const { ISCNQueryClient, ISCNSigningClient } = require("@likecoin/iscn-js");
 const { SigningStargateClient } = require("@cosmjs/stargate");
-const { loadWallet } = require("./wallet");
+const { loadWallet, ENDPOINT } = require("./wallet");
 
 const NAME = process.env["NAME"];
 const PUNCH_IN = "Punch in";
@@ -18,11 +18,11 @@ async function sign(action) {
 
   const signingClient = new ISCNSigningClient();
   await signingClient.connectWithSigner(
-    "http://node.testnet.like.co/rpc/",
+    ENDPOINT,
     signer
   );
   const client = new ISCNQueryClient();
-  await client.connect("http://node.testnet.like.co/rpc/");
+  await client.connect(ENDPOINT);
 
   const payload = {
     stakeholders: [
