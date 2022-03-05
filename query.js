@@ -17,7 +17,7 @@ function organize(records) {
   for (const record of records) {
     const timestamp = new Date(record.data.recordTimestamp);
     const { keywords } = record.data.contentMetadata;
-    if (keywords === PUNCH_IN) {
+    if (keywords === PUNCH_IN && !last) {
       last = record;
     }
     if (keywords === PUNCH_OUT && last) {
