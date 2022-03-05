@@ -1,6 +1,7 @@
 const { ISCNQueryClient } = require("@likecoin/iscn-js");
 const { loadWallet, ENDPOINT } = require("./wallet");
 const { PUNCH_IN, PUNCH_OUT } = require("./sign");
+const { writeRecords } = require("./export.js");
 
 const client = new ISCNQueryClient();
 
@@ -8,7 +9,8 @@ async function query() {
   const { wallet } = await loadWallet();
   await client.connect(ENDPOINT);
   const { records } = await client.queryRecordsByOwner(wallet.address);
-  console.log(organize(records));
+  const result = organize(records);
+  await writeRecords(result);
 }
 
 function organize(records) {

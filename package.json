@@ -9,6 +9,7 @@
     "@cosmjs/stargate": "^0.26.6",
     "@likecoin/iscn-js": "^0.0.7",
     "cosmjs-types": "^0.4.1",
+    "csv-writer": "^1.6.0",
     "dotenv": "^16.0.0",
     "yargs": "^17.3.1"
   },
