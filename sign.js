@@ -37,6 +37,7 @@ async function sign(action) {
     ],
     type: "Message",
     name: `${NAME} - ${action} - ${formatDate(new Date())}`,
+    keywords: [action],
   };
   console.dir(payload, { depth: null });
   const res = await signingClient.createISCNRecord(wallet.address, payload);
