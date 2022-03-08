@@ -1,7 +1,8 @@
 const { ISCNQueryClient } = require("@likecoin/iscn-js");
 const { loadWallet, ENDPOINT } = require("./wallet");
 const { PUNCH_IN, PUNCH_OUT } = require("./sign");
-const { writeRecords } = require("./export.js");
+const { writeRecords } = require("./export");
+const moment = require("moment");
 
 const client = new ISCNQueryClient();
 
@@ -17,7 +18,7 @@ function organize(records) {
   const result = [];
   let last = null;
   for (const record of records) {
-    const timestamp = new Date(record.data.recordTimestamp);
+    const timestamp = moment(record.data.recordTimestamp);
     const { keywords } = record.data.contentMetadata;
     if (keywords === PUNCH_IN && !last) {
       last = record;
@@ -35,16 +36,15 @@ function organize(records) {
 }
 
 function commit(recordIn, recordOut) {
-  const fromTime = new Date(recordIn.data.recordTimestamp);
-  const toTime = new Date(recordOut.data.recordTimestamp);
-  const duration = toTime.getTime() - fromTime.getTime();
-  const minutes = Math.ceil(duration / (1000 * 60));
+  const start = moment(recordIn.data.recordTimestamp);
+  const end = moment(recordOut.data.recordTimestamp);
+  const duration = moment.duration(end.diff(start));
   return {
-    fromTime,
-    fromId: recordIn.data['@id'],
-    toTime,
-    toId: recordOut.data['@id'],
-    duration: minutes,
+    start,
+    startISCN: recordIn.data['@id'],
+    end,
+    endISCN: recordOut.data['@id'],
+    duration,
   };
 }
 

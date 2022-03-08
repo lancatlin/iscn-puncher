@@ -1,31 +1,30 @@
+const moment = require("moment");
 const { createObjectCsvWriter } = require('csv-writer');
 const csvWriter = createObjectCsvWriter({
   path: 'out.csv',
   header: [
-    { id: 'fromTime', title: 'From' },
-    { id: 'toTime', title: 'To' },
-    { id: 'duration', title: 'Duration (Minutes)' },
-    { id: 'fromId', title: 'From ISCN' },
-    { id: 'toId', title: 'To ISCN' },
+    { id: 'start', title: 'Start' },
+    { id: 'end', title: 'End' },
+    { id: 'duration', title: 'Duration (HH:mm)' },
+    { id: 'startISCN', title: 'Start ISCN' },
+    { id: 'endISCN', title: 'End ISCN' },
   ],
 });
 
 function format(records) {
   return records.map(({ 
-    fromTime,
-    toTime,
+    start,
+    end,
     duration,
-    fromId,
-    toId,
+    startISCN,
+    endISCN,
   }) => {
-    const date = new Date(0);
-    date.setMinutes(duration);
     return {
-      fromTime: fromTime.toLocaleString('zh-TW'),
-      toTime: toTime.toLocaleString('zh-TW'),
-      duration: date.toUTCString().slice(17, 22),
-      fromId,
-      toId,
+      start: start.format('YYYY-MM-DD HH:mm'),
+      end: end.format('YYYY-MM-DD HH:mm'),
+      duration: moment.utc(duration.as('milliseconds')).format('HH:mm'),
+      startISCN,
+      endISCN,
     }
   });
 }
