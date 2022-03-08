@@ -3,6 +3,7 @@ const { loadWallet, ENDPOINT } = require("./wallet");
 const { PUNCH_IN, PUNCH_OUT } = require("./sign");
 const { writeRecords } = require("./export");
 const moment = require("moment");
+const stats = require("./stats");
 
 const client = new ISCNQueryClient();
 
@@ -11,7 +12,10 @@ async function query() {
   await client.connect(ENDPOINT);
   const { records } = await client.queryRecordsByOwner(wallet.address);
   const result = organize(records);
-  await writeRecords(result);
+  await writeRecords({
+    stats: stats(result),
+    records: result,
+  });
 }
 
 function organize(records) {
