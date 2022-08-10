@@ -7,6 +7,10 @@ const stats = require("./stats");
 
 const client = new ISCNQueryClient();
 
+function getTime(record) {
+  return moment(record.data.recordTimestamp).unix();
+}
+
 async function query() {
   const { wallet } = await loadWallet();
   await client.connect(ENDPOINT);
@@ -22,7 +26,7 @@ function organize(records) {
   const result = [];
   let last = null;
   for (const record of records) {
-    const timestamp = moment(record.data.recordTimestamp);
+    const timestamp = getTime(record);
     const { keywords } = record.data.contentMetadata;
     if (keywords === PUNCH_IN && !last) {
       last = record;
@@ -40,9 +44,9 @@ function organize(records) {
 }
 
 function commit(recordIn, recordOut) {
-  const start = moment(recordIn.data.recordTimestamp);
-  const end = moment(recordOut.data.recordTimestamp);
-  const duration = moment.duration(end.diff(start));
+  const start = getTime(recordIn);
+  const end = getTime(recordOut);
+  const duration = end - start;
   return {
     start,
     startISCN: recordIn.data['@id'],
